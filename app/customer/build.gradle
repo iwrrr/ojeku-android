@@ -1,11 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 apply from: "$rootDir/gradle/script/main.gradle"
 apply from: "$rootDir/gradle/script/main.module.gradle"
 apply from: "$rootDir/gradle/script/main.dependencies.gradle"
+apply from: "$rootDir/gradle/script/features.dependencies.gradle"
 
 android {
     namespace 'com.hwaryun.ojeku'

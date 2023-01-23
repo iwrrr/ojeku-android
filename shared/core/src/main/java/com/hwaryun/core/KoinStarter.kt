@@ -9,11 +9,12 @@ import org.koin.core.module.Module
 
 object KoinStarter {
 
-    fun onCreate(context: Context) {
+    fun onCreate(context: Context, featureModule: List<Module> = emptyList()) {
         val modules = listOf(
-            NetworkModule.modules(),
             AuthModule.modules(),
-        )
+            NetworkModule.modules(),
+            CoreModule.modules(),
+        ) + featureModule
         startKoin {
             androidContext(context)
             modules(modules)

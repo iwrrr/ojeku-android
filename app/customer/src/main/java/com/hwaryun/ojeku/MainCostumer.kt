@@ -7,6 +7,11 @@ class MainCostumer : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        KoinStarter.onCreate(this)
+        KoinStarter.onCreate(
+            context = this,
+            featureModule = listOf(
+                HomeModule.module()
+            )
+        )
     }
 }
