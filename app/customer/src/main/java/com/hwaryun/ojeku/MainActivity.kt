@@ -3,6 +3,7 @@ package com.hwaryun.ojeku
 import android.location.Location
 import android.os.Bundle
 import com.hwaryun.core.extensions.attachFragment
+import com.hwaryun.locationapi.ui.SearchLocationActivity
 import com.hwaryun.ojeku.databinding.ActivityMainBinding
 import com.hwaryun.utils.BindingActivity
 import com.hwaryun.utils.listener.findFragmentListener
@@ -17,6 +18,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(), MainActivityListene
 
     override fun onCreateBinding(savedInstanceState: Bundle?) {
         homeTag = attachFragment(binding.mainFrame, HomeFragment::class)
+
+        binding.btnSearch.setOnClickListener {
+            SearchLocationActivity.launch(this)
+        }
     }
 
     override fun onLocationResult(data: Location) {

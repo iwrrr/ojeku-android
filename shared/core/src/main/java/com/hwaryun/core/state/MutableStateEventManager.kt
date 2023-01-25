@@ -23,6 +23,7 @@ open class MutableStateEventManager<T> : StateEventManager<T>(), FlowCollector<S
         scope: CoroutineScope,
         onIdle: () -> Unit,
         onLoading: () -> Unit,
+        onEmpty: () -> Unit,
         onFailure: (throwable: Throwable) -> Unit,
         onSuccess: (T) -> Unit
     ) {
@@ -33,6 +34,7 @@ open class MutableStateEventManager<T> : StateEventManager<T>(), FlowCollector<S
                 when (it) {
                     is StateEvent.Idle -> onIdle.invoke()
                     is StateEvent.Loading -> onLoading.invoke()
+                    is StateEvent.Empty -> onEmpty.invoke()
                     is StateEvent.Failure -> onFailure.invoke(it.exception)
                     is StateEvent.Success -> onSuccess.invoke(it.data)
                 }
@@ -65,6 +67,7 @@ open class MutableStateEventManager<T> : StateEventManager<T>(), FlowCollector<S
             scope: CoroutineScope,
             onIdle: () -> Unit,
             onLoading: () -> Unit,
+            onEmpty: () -> Unit,
             onFailure: (throwable: Throwable) -> Unit,
             onSuccess: (U) -> Unit
         ) {
@@ -77,6 +80,10 @@ open class MutableStateEventManager<T> : StateEventManager<T>(), FlowCollector<S
                     is StateEvent.Loading -> {
                         value = StateEvent.Loading()
                         onLoading.invoke()
+                    }
+                    is StateEvent.Empty -> {
+                        value = StateEvent.Empty()
+                        onEmpty.invoke()
                     }
                     is StateEvent.Failure -> {
                         value = StateEvent.Failure(this.exception)

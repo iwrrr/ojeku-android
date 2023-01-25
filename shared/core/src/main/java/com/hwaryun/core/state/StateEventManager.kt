@@ -14,6 +14,7 @@ abstract class StateEventManager<T> {
         scope: CoroutineScope,
         onIdle: () -> Unit = {},
         onLoading: () -> Unit = {},
+        onEmpty: () -> Unit = {},
         onFailure: (throwable: Throwable) -> Unit = {},
         onSuccess: (T) -> Unit = {},
     )

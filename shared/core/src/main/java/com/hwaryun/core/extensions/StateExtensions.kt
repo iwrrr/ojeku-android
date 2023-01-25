@@ -2,18 +2,15 @@ package com.hwaryun.core.extensions
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hwaryun.core.state.MutableStateEventManager
-import com.hwaryun.core.state.StateEvent
-import com.hwaryun.core.state.StateEventManager
-import com.hwaryun.core.state.StateEventSubscriber
+import com.hwaryun.core.state.*
+import com.hwaryun.core.state.exception.StateApiException
+import com.hwaryun.core.state.exception.StateDataEmptyException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
-
-typealias FlowState<T> = Flow<StateEvent<T>>
 
 val <T> StateEvent<T>.value: T?
     get() {
@@ -42,8 +39,9 @@ fun <T> ViewModel.convertEventToSubscriber(
         scope = viewModelScope,
         onIdle = subscriber::onIdle,
         onLoading = subscriber::onLoading,
-        onSuccess = subscriber::onSuccess,
+        onEmpty = subscriber::onEmpty,
         onFailure = subscriber::onFailure,
+        onSuccess = subscriber::onSuccess,
     )
 }
 
@@ -54,16 +52,36 @@ fun <T, U> Response<T>.asFlowStateEvent(mapper: (T) -> U): FlowState<U> {
         val emitData = try {
             val body = body()
             if (isSuccessful && body != null) {
-                val dataMapper = mapper.invoke(body)
-                StateEvent.Success(dataMapper)
+                val data = mapper.invoke(body)
+                if (data is List<*>) {
+                    if (data.isEmpty()) {
+                        StateEvent.Empty()
+                    } else {
+                        StateEvent.Success(data as U)
+                    }
+                } else {
+                    StateEvent.Success(data)
+                }
             } else {
-                val exception = Throwable(message())
-                StateEvent.Failure(exception)
+                val throwable = StateApiException(message(), code())
+                StateEvent.Failure(throwable)
             }
         } catch (e: Throwable) {
             StateEvent.Failure(e)
         }
 
         emit(emitData)
+    }
+}
+
+fun Throwable.ifStateEmpty(action: (StateDataEmptyException) -> Unit) {
+    if (this is StateDataEmptyException) {
+        action.invoke(this)
+    }
+}
+
+fun Throwable.ifNetworkError(action: (StateApiException) -> Unit) {
+    if (this is StateApiException) {
+        action.invoke(this)
     }
 }

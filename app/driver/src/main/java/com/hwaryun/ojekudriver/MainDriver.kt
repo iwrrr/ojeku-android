@@ -1,7 +1,7 @@
 package com.hwaryun.ojekudriver
 
 import android.app.Application
-import com.hwaryun.core.KoinStarter
+import com.hwaryun.koin.KoinStarter
 
 class MainDriver : Application() {
 
