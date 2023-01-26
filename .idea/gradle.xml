@@ -15,6 +15,9 @@
             <option value="$PROJECT_DIR$/app/driver" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />
+            <option value="$PROJECT_DIR$/features/customer" />
+            <option value="$PROJECT_DIR$/features/customer/profile" />
+            <option value="$PROJECT_DIR$/features/customer/search" />
             <option value="$PROJECT_DIR$/features/location-api" />
             <option value="$PROJECT_DIR$/features/transaction" />
             <option value="$PROJECT_DIR$/shared" />

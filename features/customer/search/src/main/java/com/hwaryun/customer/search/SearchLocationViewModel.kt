@@ -1,4 +1,4 @@
-package com.hwaryun.locationapi.ui
+package com.hwaryun.customer.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

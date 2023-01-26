@@ -2,8 +2,9 @@ package com.hwaryun.ojeku
 
 import android.location.Location
 import android.os.Bundle
-import com.hwaryun.core.extensions.attachFragment
-import com.hwaryun.locationapi.ui.SearchLocationActivity
+import com.hwaryun.customer.search.SearchLocationFragment
+import com.hwaryun.navigation.attachFragment
+import com.hwaryun.navigation.replaceFragment
 import com.hwaryun.ojeku.databinding.ActivityMainBinding
 import com.hwaryun.utils.BindingActivity
 import com.hwaryun.utils.listener.findFragmentListener
@@ -17,15 +18,19 @@ class MainActivity : BindingActivity<ActivityMainBinding>(), MainActivityListene
     }
 
     override fun onCreateBinding(savedInstanceState: Bundle?) {
-        homeTag = attachFragment(binding.mainFrame, HomeFragment::class)
+        homeTag = supportFragmentManager.attachFragment(binding.mainFrame, HomeFragment::class)
 
         binding.btnSearch.setOnClickListener {
-            SearchLocationActivity.launch(this)
+            navigateToSearchFragment()
         }
     }
 
     override fun onLocationResult(data: Location) {
         val instance = findFragmentListener<HomeFragmentListener>(homeTag)
         instance?.onMessageFromActivity("AOWKOAKWOKWOAKWOKAOW")
+    }
+
+    private fun navigateToSearchFragment() {
+        supportFragmentManager.replaceFragment(binding.mainFrame, SearchLocationFragment::class)
     }
 }

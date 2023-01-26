@@ -27,6 +27,6 @@ class RetrofitBuilder {
     }
 
     companion object {
-        private const val BASE_URL = "https://46b6-180-252-127-21.ap.ngrok.io"
+        private const val BASE_URL = "https://73ca-180-252-127-21.ap.ngrok.io"
     }
 }

@@ -49,6 +49,10 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(), HomeFragmentListene
             println("------- location loading")
         }
 
+        override fun onEmpty() {
+            //
+        }
+
         override fun onFailure(throwable: Throwable) {
             println("------- location failure -> ${throwable.message}")
         }
